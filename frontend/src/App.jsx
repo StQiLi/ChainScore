@@ -6,6 +6,7 @@ import Error from './pages/Error';
 import Dashboard from './pages/Dashboard';
 import Lookup from './pages/Lookup';
 import ProtectedRoute from './pages/ProtectedRoute';
+import Login from './pages/Login';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -24,6 +25,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path='/Login' element ={<Login/> }>
+
+          </Route>
           <Route path='/lookup' element ={<Lookup/> }>
             
           </Route>
