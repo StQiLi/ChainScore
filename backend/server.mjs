@@ -72,4 +72,9 @@ app.get('/wallet', async(req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+<<<<<<< HEAD
  });
+=======
+
+});
+>>>>>>> f9014cec67bc5fd8826963497d94cbc9609520e9
