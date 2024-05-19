@@ -34,18 +34,11 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-
           <Route path='/lookup' element ={<Lookup/> }></Route>
 
-        </Routes>
-        
+        </Routes>  
 
-        </AuroraBackground>
-
-        
-
-        
+        </AuroraBackground>  
       </div>
     </BrowserRouter>
   );
