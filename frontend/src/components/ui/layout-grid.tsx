@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../util/cn";
-import Image from "next/image";
 
 type Card = {
   id: number;
