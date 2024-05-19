@@ -49,7 +49,6 @@ const getStatus = async (network: 'mainnet' | 'testnet' | 'betanet' | 'localnet'
 };
 
 export const testFunction = async (targetaccount: string) => {
-    const chunks_hashes = [];
     const transactions: TransactionDetail[] = [];
   try {
     let blockHeight = (await getStatus('testnet', 'dontcare', 'block', {"finality": "final"})).result.header.height
