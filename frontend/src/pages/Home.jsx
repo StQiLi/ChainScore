@@ -4,19 +4,16 @@ import { Globe } from "../components/ui/globe";
 
 const Home = () => {
     return (
-      <div className="relative w-screen h-screen bg-white">
-        <div className="absolute top-0 left-0">
-          <img src={logo} alt="Logo" className="" />
+      <section className="section">
+      <div className="flex items-start justify-center align-top h-screen">
+        <div className="flex left-0">
+          {/* <img src={logo} alt="Logo" className="h-24 mb-4" /> */}
         </div>
-        <div className="flex flex-col items-center justify-center h-screen">
-          <div className="text-center">
-            
-            <div className=" h-full flex justify-center">
-              <p className="text-4x1 font-bold">ChainScore</p>
-            </div>
-          </div>
+        <div>
+          <h1 className="text-6xl font-bold align-top border border-black">ChainScore</h1>
         </div>
       </div>
+    </section>
     );
   };
   export default Home;
