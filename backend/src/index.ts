@@ -48,14 +48,15 @@ const getStatus = async (network: 'mainnet' | 'testnet' | 'betanet' | 'localnet'
   return response;
 };
 
-export const testFunction = async () => {
+export const testFunction = async (targetaccount: string) => {
     const chunks_hashes = [];
     const transactions: TransactionDetail[] = [];
   try {
     let blockHeight = (await getStatus('testnet', 'dontcare', 'block', {"finality": "final"})).result.header.height
 
+    let blockHeightMaxCheck = 1000;
     console.log(blockHeight);
-    while (blockHeight > 0) {
+    while (blockHeight > 0 && blockHeightMaxCheck > 0) {
         const block = await getStatus('testnet', 'dontcare', 'block', {"block_id": blockHeight});
         if (block.result !== undefined) {
             const blockTimestamp = new Date(parseInt(block.result.header.timestamp_nanosec) / 1e6).toISOString();
@@ -70,7 +71,7 @@ export const testFunction = async () => {
 
                 for (let transaction of chunk.result.transactions) {
                     // console.log(transaction);
-                    if (transaction.signer_id === 'testnet' || transaction.receiver_id === 'testnet') {
+                    if (transaction.signer_id === targetaccount || transaction.receiver_id === targetaccount) {
                         // Extract transfer actions and calculate the amount
                         let transferAmount = 0;
                         // console.log(transferAmount);
@@ -85,7 +86,7 @@ export const testFunction = async () => {
             
                         // Include only successful transactions
                         let transactionStatus = Object();
-                        if (transaction.receiver_id === 'testnet') {
+                        if (transaction.receiver_id === targetaccount) {
                             transactionStatus = await getStatus('testnet', 'dontcare', 'EXPERIMENTAL_tx_status', { tx_hash: transaction.hash, sender_account_id: transaction.signer_id });
                         } else {
                             transactionStatus = await getStatus('testnet', 'dontcare', 'EXPERIMENTAL_tx_status', { tx_hash: transaction.hash, sender_account_id: transaction.receiver_id });
@@ -103,13 +104,14 @@ export const testFunction = async () => {
                             amount: transferAmount / 1e24, // Convert yoctoNEAR to NEAR
                             };
                             transactions.push(transactionDetails);
-                            console.log(transactionDetails);
+                            // console.log(transactionDetails);
                         }
                     }
                 }
             }
         }
         blockHeight--;
+        blockHeightMaxCheck--;
     }
 
     return transactions;
