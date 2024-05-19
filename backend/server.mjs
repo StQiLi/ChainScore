@@ -2,7 +2,7 @@ import express from "express";
 import { testFunction } from "./dist/index.js";
 import OpenAI from 'openai-api';
 
-const openai = new OpenAI('sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0');
+const openai = new OpenAI('L0L');
 
 const app = express();
 const port = 3000;
@@ -72,9 +72,5 @@ app.get('/wallet', async(req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-<<<<<<< HEAD
- });
-=======
 
 });
->>>>>>> f9014cec67bc5fd8826963497d94cbc9609520e9
