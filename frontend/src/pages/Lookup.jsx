@@ -3,19 +3,26 @@ import axios from 'axios';
 import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
+import { PlaceholdersAndVanishInput } from '../components/ui/placeholders-and-vanish-input';
 
 const Lookup = () => {
   const [address, setAddress] = useState('');
   const [walletDetails, setWalletDetails] = useState(null);
   const [error, setError] = useState('');
 
+  const placeholders = [
+    "Enter your CryptoWallet ID"
+  ];
+
   const handleChange = (e) => {
     setAddress(e.target.value);
   };
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
     try {
       const response = await axios.get(`http://localhost:5000/wallet/${address}`);
       setWalletDetails(response.data);
@@ -24,11 +31,6 @@ const Lookup = () => {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleFormSubmit(e);
-    }
-  };
 
   return (
     <Container maxWidth="sm">
@@ -36,29 +38,35 @@ const Lookup = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Wallet Lookup
         </Typography>
-        <form onSubmit={handleFormSubmit} style={{ width: '100%' }}>
-          <TextField
-            label="Crypto Address"
-            variant="outlined"
-            fullWidth
-            value={address}
+          <PlaceholdersAndVanishInput
+            placeholders= {placeholders}
+            value = {address}
             onChange={handleChange}
-            margin="normal"
-            onKeyPress={handleKeyPress}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+            onSubmit={handleFormSubmit}
+            />
+    {/* 
+          // <TextField
+          //   label="Crypto Address"
+          //   variant="outlined"
+          //   fullWidth
+          //   value={address}
+          //   onChange={handleChange}
+          //   margin="normal"
+          //   onKeyPress={handleKeyPress}
+          //   InputProps={{
+          //     endAdornment: (
+          //       <InputAdornment position="end">
+          //         <SearchIcon />
+          //       </InputAdornment>
+          //     ),
+          //   }}
+          // />
           {/* <Box mt={2} display="flex" justifyContent="center">
             <Button type="submit" variant="contained" color="primary">
               Search
             </Button>
-          </Box> */}
-        </form>
+          </Box>  */ }
+
         {error && <Alert severity="error" style={{ marginTop: '20px' }}>{error}</Alert>}
         {walletDetails && (
           <Box mt={4} width="100%">

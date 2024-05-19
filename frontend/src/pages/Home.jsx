@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/logo.png';
+import { Globe } from "../components/ui/globe";
 
 const Home = () => {
     return (

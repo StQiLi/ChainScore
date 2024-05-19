@@ -21,11 +21,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="w-full h-full">
-
         <FloatingNav navItems={navItems}/>
         <AuroraBackground>
-      
-
+    
         <Routes>
           <Route path='/' index element={<Home />} />
           <Route
