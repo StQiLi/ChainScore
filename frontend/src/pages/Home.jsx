@@ -3,18 +3,18 @@ import logo from '../assets/logo.png';
 
 const Home = () => {
     return (
-      <div className="w-screen h-screen border border-black">
-        <div className="border-2 border-black">
+      <div className="relative w-screen h-screen bg-white">
+        <div className="absolute top-0 left-0">
           <img src={logo} alt="Logo" className="" />
         </div>
-        <div className="flex flex-col items-center justify-center h-screen border-2 border-black">
+        <div className="flex flex-col items-center justify-center h-screen">
           <div className="text-center">
             
-            <div className="border-2 border-black h-full flex justify-center">
-              <h1 className="text-4x1 font-bold">ChainScore</h1>
+            <div className=" h-full flex justify-center">
+              <p className="text-4x1 font-bold">ChainScore</p>
             </div>
           </div>
-      </div>
+        </div>
       </div>
     );
   };
