@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { LayoutGrid } from "../ui/layout-grid";
+import { LayoutGrid } from "../components/ui/layout-grid";
 import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
 
 const Dashboard = ({ user }) => {
