@@ -1,5 +1,6 @@
-import React from 'react';
-import { InfiniteMovingCards } from '../components/ui/infinite-moving-cards';
+import React, { useState, useRef, useEffect } from "react";
+import { LayoutGrid } from "../components/ui/layout-grid";
+import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
 
 const recentTransactions = [
   {
