@@ -2,7 +2,7 @@ import express from "express";
 import { testFunction } from "./dist/index.js";
 import OpenAI from 'openai-api';
 
-const openai = new OpenAI('L0L');
+const openai = new OpenAI('a');
 
 const app = express();
 const port = 3000;

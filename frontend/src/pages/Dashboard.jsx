@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { LayoutGrid } from "../components/ui/layout-grid";
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards";
 import { AnimatePresence, motion } from "framer-motion";
-import { RoundedBox } from "../components/ui/RoundedBox"
+import { SquishyCard } from "../components/SquishyCard"
 
 
 const recentTransactions = [
@@ -66,19 +66,10 @@ export const projects = [
 
 function Dashboard() {
   return (
-    <div className="dashboard border border-black w-screen h-screen">
-        <div className="flex content-center gap-4">
-            <div className="flex justify-center">
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Total Volume</h2></div>}></RoundedBox>
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Average Volume</h2></div>}></RoundedBox>
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Frequency</h2></div>}></RoundedBox>
-            </div>
-            <div className="flex justify-center">
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>History</h2></div>}></RoundedBox>
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Wallet Health</h2></div>}></RoundedBox>
-              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Suggested Loan Volume</h2></div>}></RoundedBox>
-            </div>
-        </div>
+    <div className="w-screen h-screen">
+        <h2> Recent Transations</h2>
+        <InfiniteMovingCards items = {recentTransactions}/>
+        {/* <SquishyCard/> */}
     </div>
   );
 }

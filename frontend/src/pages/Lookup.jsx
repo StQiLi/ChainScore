@@ -31,9 +31,6 @@ const Lookup = () => {
       console.log(json)
     } catch (err) {
       setError('Error fetching wallet details. Please check the address and try again.');
-      setTimeout(() => {
-        setError(null);
-      }, 3000);
     }
   };
 
