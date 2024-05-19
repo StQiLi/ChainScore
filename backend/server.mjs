@@ -2,7 +2,7 @@ import express from "express";
 import { testFunction } from "./dist/index.js";
 import OpenAI from 'openai-api';
 
-const openai = new OpenAI();
+const openai = new OpenAI('sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0');
 
 const app = express();
 const port = 3000;
@@ -26,27 +26,27 @@ async function chain_score(formatted_history, totalvolume, average_volume_per_se
     \n e) Total Wallet Health: Rating the overall wallet health factoring in the previous scores in an account.
     \n f) Suggested Loan Volume: Provide a loan volume integer not limited by 10. This should be 33% of the average volume per month and add or subtract up to 10% of the average volume per month based upon being greater or less than 5 Total Wallet Health, respectively.
     \n\n Make sure to format the answer in a string format with each of the "answer to _)" replaced by an integer and return the following with nothing else:\n
-    { 
+    [{ 
       "totalvolumescore": "answer to a)",
       "averagevolumescore": "answer to b)",
       "frequencyscore": "answer to c)",
       "historyscore": "answer to d)",
       "wallethealth": "answer to e)",
       "suggestedloanvolume": "answer to f)",
-    }
+    }],
     `
    }],
     model: "gpt-4o",
   });
 
-  return(completion.choices[0]);
+
+  return(completion.choices[0].message.content);
 }
 
 app.get('/wallet', async(req, res) => {
-  console.log('test');
   try {
-  console.log(req.query.address);
-  const data = testFunction(req.query.address); // This is the user that needs to be changed based upon input from frontend
+  //console.log(req.query.address);
+  const data = await testFunction(req.query.address); // This is the user that needs to be changed based upon input from frontend
     
   let totalvolume = 0;
   for (let i = 0; i < data.length; i++) {
@@ -58,7 +58,7 @@ app.get('/wallet', async(req, res) => {
 
   let average_volume_per_second = totalvolume / differenceInSeconds;
   let average_volume_per_day = average_volume_per_second * 86400;
-  const chainscore_jsonobj = await(chain_score(data, average_volume_per_second, average_volume_per_day, differenceInSeconds));
+  const chainscore_jsonobj = await chain_score(data, totalvolume, average_volume_per_second, average_volume_per_day, differenceInSeconds);
 
   res.json({
     data, 
@@ -72,5 +72,4 @@ app.get('/wallet', async(req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-
-// });
+ });

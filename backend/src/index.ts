@@ -54,12 +54,12 @@ export const testFunction = async (targetaccount: string) => {
     let blockHeight = (await getStatus('testnet', 'dontcare', 'block', {"finality": "final"})).result.header.height
 
     let blockHeightMaxCheck = 1000;
-    console.log(blockHeight);
+    //console.log(blockHeight);
     while (blockHeight > 0 && blockHeightMaxCheck > 0) {
         const block = await getStatus('testnet', 'dontcare', 'block', {"block_id": blockHeight});
         if (block.result !== undefined) {
             const blockTimestamp = new Date(parseInt(block.result.header.timestamp_nanosec) / 1e6).toISOString();
-            console.log(`Processing block ${blockHeight} at ${blockTimestamp}`);
+            //console.log(`Processing block ${blockHeight} at ${blockTimestamp}`);
 
             // console.log(block.result.header.chunks_included);
             // console.log(block.result.chunks[0].chunk_hash);
@@ -103,7 +103,7 @@ export const testFunction = async (targetaccount: string) => {
                             amount: transferAmount / 1e24, // Convert yoctoNEAR to NEAR
                             };
                             transactions.push(transactionDetails);
-                            // console.log(transactionDetails);
+                            console.log(transactionDetails);
                         }
                     }
                 }

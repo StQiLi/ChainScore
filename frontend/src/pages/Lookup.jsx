@@ -21,7 +21,6 @@ const Lookup = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setError('Form Submition Error');
 
     try {
       const json = await axios.get(`http://localhost:3000/wallet`, {
@@ -32,6 +31,9 @@ const Lookup = () => {
       console.log(json)
     } catch (err) {
       setError('Error fetching wallet details. Please check the address and try again.');
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
     }
   };
 
