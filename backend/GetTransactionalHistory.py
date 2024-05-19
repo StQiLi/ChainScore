@@ -19,7 +19,7 @@ def format_crypto_wallet_history(file_path):
     return formatted_text
 
 # Make sure to replace 'your-api-key' with your actual OpenAI API key
-client = OpenAI(api_key='')
+client = OpenAI(api_key='dd')
 
 
 # Load the JSON file
