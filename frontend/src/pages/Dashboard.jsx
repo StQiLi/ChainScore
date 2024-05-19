@@ -25,7 +25,7 @@ const recentTransactions = [
 function Dashboard() {
   return (
     <div className="dashboard">
-      <h1>Recent Transactions</h1>
+      <h2 >Recent Transactions</h2>
       <InfiniteMovingCards items={recentTransactions} />
     </div>
   );
