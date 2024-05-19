@@ -24,7 +24,11 @@ const Lookup = () => {
     setError('Form Submition Error');
 
     try {
-      const json = await axios.get(`http://localhost:3000/wallet/${address}`);
+      const json = await axios.get(`http://localhost:3000/wallet`, {
+        params: {
+          address: address // Pass the address as a URL parameter
+        }
+      });
       console.log(json)
     } catch (err) {
       setError('Error fetching wallet details. Please check the address and try again.');
