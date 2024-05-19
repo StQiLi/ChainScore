@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
+import { TextField, Button, Typography, Container, Box, Alert, CircularProgress } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import { PlaceholdersAndVanishInput } from '../components/ui/placeholders-and-vanish-input';
@@ -9,6 +9,7 @@ const Lookup = () => {
   const [address, setAddress] = useState('');
   const [walletDetails, setWalletDetails] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const placeholders = [
     "Enter your CryptoWallet ID",
@@ -21,16 +22,19 @@ const Lookup = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true); // Start loading
+    setError(''); // Clear previous errors
     try {
-      const json = await axios.get(`http://localhost:3000/wallet`, {
+      const response = await axios.get(`http://localhost:3000/wallet`, {
         params: {
           address: address // Pass the address as a URL parameter
         }
       });
-      console.log(json)
+      setWalletDetails(response.data); // Set wallet details
+      setLoading(false); // Stop loading
     } catch (err) {
       setError('Error fetching wallet details. Please check the address and try again.');
+      setLoading(false); // Stop loading
     }
   };
 
@@ -41,35 +45,13 @@ const Lookup = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Wallet Lookup
         </Typography>
-          <PlaceholdersAndVanishInput
-            placeholders= {placeholders}
-            value = {address}
-            onChange={handleChange}
-            onSubmit={handleFormSubmit}
-            />
-    {/* 
-          // <TextField
-          //   label="Crypto Address"
-          //   variant="outlined"
-          //   fullWidth
-          //   value={address}
-          //   onChange={handleChange}
-          //   margin="normal"
-          //   onKeyPress={handleKeyPress}
-          //   InputProps={{
-          //     endAdornment: (
-          //       <InputAdornment position="end">
-          //         <SearchIcon />
-          //       </InputAdornment>
-          //     ),
-          //   }}
-          // />
-          {/* <Box mt={2} display="flex" justifyContent="center">
-            <Button type="submit" variant="contained" color="primary">
-              Search
-            </Button>
-          </Box>  */ }
-
+        <PlaceholdersAndVanishInput
+          placeholders={placeholders}
+          value={address}
+          onChange={handleChange}
+          onSubmit={handleFormSubmit}
+        />
+        {loading && <CircularProgress style={{ marginTop: '20px' }} />} {/* Loading animation */}
         {error && <Alert severity="error" style={{ marginTop: '20px' }}>{error}</Alert>}
         {walletDetails && (
           <Box mt={4} width="100%">

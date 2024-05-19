@@ -108,7 +108,7 @@ export function PlaceholdersAndVanishInput({
           }
         }
         newDataRef.current = newArr;
-        const ctx = canvasRef.current?.getContext("2d");
+        const ctx = canvasRyef.current?.getContext("2d");
         if (ctx) {
           ctx.clearRect(pos, 0, 800, 800);
           newDataRef.current.forEach((t) => {

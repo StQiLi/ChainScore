@@ -117,6 +117,10 @@ h5 {
   font-size: 1.25rem;
 }
 
+.dashboard-container {
+  margin-top: 600px;
+}
+
 small,
 .text-small {
   font-size: var(--small-text);
