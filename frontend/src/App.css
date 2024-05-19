@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.content {
+  position: relative;
+  z-index: 1;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
