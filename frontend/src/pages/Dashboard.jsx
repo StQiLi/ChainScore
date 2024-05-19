@@ -1,135 +1,86 @@
 import React, { useState, useRef, useEffect } from "react";
-import { LayoutGrid } from "../ui/layout-grid";
-import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
+import { LayoutGrid } from "../components/ui/layout-grid";
+import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards";
+import { AnimatePresence, motion } from "framer-motion";
+import { RoundedBox } from "../components/ui/RoundedBox"
 
-const Dashboard = ({ user }) => {
-    return (
-      // <section className='section'>
-      //   <h4>Hello, {user.name}</h4>
-      // </section>
 
-    <div className= "h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
-      <InfiniteMovingCards
-        items={recent_transactions}
-        direction="right"
-        speed="slow"
-      />
-    </div>
-    );
-  };
-  
-const recent_transactions = [
+const recentTransactions = [
   {
-    quote:
-      "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
-    name: "Charles Dickens",
-    title: "A Tale of Two Cities",
+    date: '2024-05-20',
+    amount: '0.5 BTC',
+    sender: 'Alice',
+    receiver: 'Bob',
+    transactionType: 'Transfer',
+    status: 'Completed',
   },
   {
-    quote:
-      "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
-    name: "William Shakespeare",
-    title: "Hamlet",
+    date: '2024-05-21',
+    amount: '1.2 ETH',
+    sender: 'Charlie',
+    receiver: 'Dave',
+    transactionType: 'Payment',
+    status: 'Pending',
+  },
+  // Add more transactions as needed
+];
+
+export const projects = [
+  {
+    title: "Stripe",
+    description:
+      "A technology company that builds economic infrastructure for the internet.",
+    link: "https://stripe.com",
   },
   {
-    quote: "All that we see or seem is but a dream within a dream.",
-    name: "Edgar Allan Poe",
-    title: "A Dream Within a Dream",
+    title: "Netflix",
+    description:
+      "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
+    link: "https://netflix.com",
   },
   {
-    quote:
-      "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
-    name: "Jane Austen",
-    title: "Pride and Prejudice",
+    title: "Google",
+    description:
+      "A multinational technology company that specializes in Internet-related services and products.",
+    link: "https://google.com",
   },
   {
-    quote:
-      "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
-    name: "Herman Melville",
-    title: "Moby-Dick",
+    title: "Meta",
+    description:
+      "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
+    link: "https://meta.com",
+  },
+  {
+    title: "Amazon",
+    description:
+      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+    link: "https://amazon.com",
+  },
+  {
+    title: "Microsoft",
+    description:
+      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+    link: "https://microsoft.com",
   },
 ];
 
-  const SkeletonOne = () => {
-    return (
-      <div>
-        <p className="font-bold text-4xl text-white">Credit Score</p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-          A serene and tranquil retreat, this house in the woods offers a peaceful
-          escape from the hustle and bustle of city life.
-        </p>
-      </div>
-    );
-  };
-   
-  const SkeletonTwo = () => {
-    return (
-      <div>
-        <p className="font-bold text-4xl text-white">House above the clouds</p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-          Perched high above the world, this house offers breathtaking views and a
-          unique living experience. It&apos;s a place where the sky meets home,
-          and tranquility is a way of life.
-        </p>
-      </div>
-    );
-  };
-  const SkeletonThree = () => {
-    return (
-      <div>
-        <p className="font-bold text-4xl text-white">Greens all over</p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-          A house surrounded by greenery and nature&apos;s beauty. It&apos;s the
-          perfect place to relax, unwind, and enjoy life.
-        </p>
-      </div>
-    );
-  };
-  const SkeletonFour = () => {
-    return (
-      <div>
-        <p className="font-bold text-4xl text-white">Rivers are serene</p>
-        <p className="font-normal text-base text-white"></p>
-        <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-          A house by the river is a place of peace and tranquility. It&apos;s the
-          perfect place to relax, unwind, and enjoy life.
-        </p>
-      </div>
-    );
-  };
-   
-  const cards = [
-    {
-      id: 1,
-      content: <SkeletonOne />,
-      className: "md:col-span-2",
-      thumbnail:
-        "https://images.unsplash.com/photo-1476231682828-37e571bc172f?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 2,
-      content: <SkeletonTwo />,
-      className: "col-span-1",
-      thumbnail:
-        "https://images.unsplash.com/photo-1464457312035-3d7d0e0c058e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 3,
-      content: <SkeletonThree />,
-      className: "col-span-1",
-      thumbnail:
-        "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 4,
-      content: <SkeletonFour />,
-      className: "md:col-span-2",
-      thumbnail:
-        "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+function Dashboard() {
+  return (
+    <div className="dashboard border border-black w-screen h-screen">
+        <div className="flex content-center gap-4">
+            <div className="flex justify-center">
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Total Volume</h2></div>}></RoundedBox>
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Average Volume</h2></div>}></RoundedBox>
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Frequency</h2></div>}></RoundedBox>
+            </div>
+            <div className="flex justify-center">
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>History</h2></div>}></RoundedBox>
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Wallet Health</h2></div>}></RoundedBox>
+              <RoundedBox children={<div className="group-hover:border-gray-400 group-hover:bg-white group-hover:text-black"><h2>Suggested Loan Volume</h2></div>}></RoundedBox>
+            </div>
+        </div>
+    </div>
+  );
+}
 
-  export default Dashboard;
+export default Dashboard;

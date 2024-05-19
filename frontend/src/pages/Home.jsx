@@ -1,20 +1,23 @@
 import React from 'react';
 import logo from '../assets/logo.png';
-import { Globe } from "../components/ui/globe";
+import { TextRevealCard, TextRevealCardTitle, TextRevealCardDescription } from "../components/ui/text-reveal-card";
 
-const Home = () => {
+const Home = () => { 
     return (
-      <section className="section">
-      <div className="flex items-start justify-center align-top h-screen">
-        <div className="flex left-0">
-          {/* <img src={logo} alt="Logo" className="h-24 mb-4" /> */}
-        </div>
-        <div>
-          <h1 className="text-6xl font-bold align-top border border-black">ChainScore</h1>
-        </div>
-      </div>
-    </section>
-    );
-  };
-  export default Home;
+      <div className="flex items-center rounded-full justify-center h-screen w-screen bg-white ">
+      <TextRevealCard
+        text="Track. Trade. Simplified. "
+        revealText="ChainScore."
+        className="text-center"
+      >
+        {/* <TextRevealCardTitle className="mb-4">Welcome to My Site</TextRevealCardTitle>
+        <TextRevealCardDescription>
+          This is a demo of the TextRevealCard component.
+        </TextRevealCardDescription>*/}
+      </TextRevealCard>
+    </div>
+  );
+};
+
+export default Home;
 
