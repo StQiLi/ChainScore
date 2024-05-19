@@ -57,50 +57,57 @@ export const testFunction = async () => {
     console.log(blockHeight);
     while (blockHeight > 0) {
         const block = await getStatus('testnet', 'dontcare', 'block', {"block_id": blockHeight});
-        const blockTimestamp = new Date(parseInt(block.result.header.timestamp_nanosec) / 1e6).toISOString();
-        console.log(`Processing block ${blockHeight} at ${blockTimestamp}`);
+        if (block.result !== undefined) {
+            const blockTimestamp = new Date(parseInt(block.result.header.timestamp_nanosec) / 1e6).toISOString();
+            console.log(`Processing block ${blockHeight} at ${blockTimestamp}`);
 
-        console.log(block.result.header.chunks_included);
-        console.log(block.result.chunks[0].chunk_hash);
-        for (let i = 0; i < block.result.header.chunks_included; i++) {
-          const chunkHash = block.result.chunks[i].chunk_hash;
-          const chunk = await getStatus('testnet', 'dontcare', 'chunk', {"chunk_id": chunkHash});
-          console.log(`Processing chunk ${chunkHash}`);
+            // console.log(block.result.header.chunks_included);
+            // console.log(block.result.chunks[0].chunk_hash);
+            for (let i = 0; i < block.result.header.chunks_included; i++) {
+                const chunkHash = block.result.chunks[i].chunk_hash;
+                const chunk = await getStatus('testnet', 'dontcare', 'chunk', {"chunk_id": chunkHash});
+                // console.log(`Processing chunk ${chunkHash}`);
 
-          for (let transaction of chunk.result.transactions) {
-            console.log(transaction);
-            if (transaction.signer_id === 'testnet' || transaction.receiver_id === 'testnet') {
-              // Extract transfer actions and calculate the amount
-              let transferAmount = 0;
-              console.log(transferAmount);
-              for (let action of transaction.actions) {
-                console.log("action:", action);
-                if (action.Transfer) {
-                  console.log("action.Transfer:", action.Transfer);
-                  transferAmount += parseInt(action.Transfer.deposit, 10);
-                  console.log(transferAmount);
+                for (let transaction of chunk.result.transactions) {
+                    // console.log(transaction);
+                    if (transaction.signer_id === 'testnet' || transaction.receiver_id === 'testnet') {
+                        // Extract transfer actions and calculate the amount
+                        let transferAmount = 0;
+                        // console.log(transferAmount);
+                        for (let action of transaction.actions) {
+                            if (action.Transfer) {
+                                // console.log("action:", action);
+                                // console.log("action.Transfer:", action.Transfer);
+                                transferAmount += parseInt(action.Transfer.deposit, 10);
+                                // console.log(transferAmount);
+                            }
+                        }
+            
+                        // Include only successful transactions
+                        let transactionStatus = Object();
+                        if (transaction.receiver_id === 'testnet') {
+                            transactionStatus = await getStatus('testnet', 'dontcare', 'EXPERIMENTAL_tx_status', { tx_hash: transaction.hash, sender_account_id: transaction.signer_id });
+                        } else {
+                            transactionStatus = await getStatus('testnet', 'dontcare', 'EXPERIMENTAL_tx_status', { tx_hash: transaction.hash, sender_account_id: transaction.receiver_id });
+                        }
+                        // console.log("obtained transaction status");
+                        // console.log(transactionStatus);
+                        if (transactionStatus.result.status.SuccessValue !== undefined) {
+                            const transactionDetails: TransactionDetail = {
+                            blockHeight: block.result.header.height,
+                            timestamp: blockTimestamp,
+                            transactionId: transaction.hash,
+                            receiverId: transaction.receiver_id,
+                            signerId: transaction.signer_id,
+                            status: 'success',
+                            amount: transferAmount / 1e24, // Convert yoctoNEAR to NEAR
+                            };
+                            transactions.push(transactionDetails);
+                            console.log(transactionDetails);
+                        }
+                    }
                 }
-              }
-  
-              // Include only successful transactions
-              const transactionStatus = await getStatus('testnet', 'dontcare', 'EXPERIMENTAL_tx_status', { tx_hash: transaction.hash, sender_account_id: transaction.signer_id });
-              console.log("obtained transaction status");
-              console.log(transactionStatus);
-              if (transactionStatus.result.status.SuccessValue !== Failure) {
-                const transactionDetails: TransactionDetail = {
-                  blockHeight: block.result.header.height,
-                  timestamp: blockTimestamp,
-                  transactionId: transaction.hash,
-                  receiverId: transaction.receiver_id,
-                  signerId: transaction.signer_id,
-                  status: 'success',
-                  amount: transferAmount / 1e24, // Convert yoctoNEAR to NEAR
-                };
-                transactions.push(transactionDetails);
-                console.log(transactionDetails);
-              }
             }
-          }
         }
         blockHeight--;
     }
