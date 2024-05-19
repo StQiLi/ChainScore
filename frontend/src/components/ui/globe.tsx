@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
@@ -113,9 +113,17 @@ export function Globe({ globeConfig, data }: WorldProps) {
     globeMaterial.shininess = globeConfig.shininess || 0.9;
   };
 
+  type Point = {
+    size: number;
+    order: number;
+    color: (t: number) => string;
+    lat: number;
+    lng: number;
+  };
+  
   const _buildData = () => {
     const arcs = data;
-    let points = [];
+    let points: Point[] = []; // Explicitly define the type of points array
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
       const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
@@ -134,7 +142,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
         lng: arc.endLng,
       });
     }
-
+  
     // remove duplicates for same lat and lng
     const filteredPoints = points.filter(
       (v, i, a) =>
@@ -144,7 +152,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
           )
         ) === i
     );
-
+  
     setGlobeData(filteredPoints);
   };
 
@@ -294,12 +302,13 @@ export function hexToRgb(hex: string) {
     : null;
 }
 
-export function genRandomNumbers(min: number, max: number, count: number) {
-  const arr = [];
-  while (arr.length < count) {
-    const r = Math.floor(Math.random() * (max - min)) + min;
-    if (arr.indexOf(r) === -1) arr.push(r);
+export function genRandomNumbers(min: number, max: number, count: number): number[] {
+    const arr: number[] = []; 
+    while (arr.length < count) {
+      const r = Math.floor(Math.random() * (max - min)) + min;
+      if (arr.indexOf(r) === -1) arr.push(r);
+    }
+  
+    return arr;
   }
-
-  return arr;
-}
+  

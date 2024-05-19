@@ -1,12 +1,6 @@
 "use client";
 import React, { useState } from "react";
-
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "../../util/cn";
 import { Link } from 'react-router-dom';
 import { withAuthInfo, useRedirectFunctions, useLogoutFunction } from '@propelauth/react';
@@ -30,7 +24,7 @@ const FloatingNavComponent = ({
 }) => {
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
- 
+
   const { redirectToLoginPage, redirectToSignupPage, redirectToAccountPage } = useRedirectFunctions();
   const logoutFunction = useLogoutFunction();
 
@@ -65,7 +59,7 @@ const FloatingNavComponent = ({
           duration: 0.2,
         }}
         className={cn(
-          "flex max-w-fit fixed top-10 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-[5000] pr-2 pl-8 py-2 items-center justify-center space-x-4",
+          "flex max-w-fit fixed top-10 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-[5000] pr-4 pl-12 py-4 items-center justify-center space-x-6",
           className
         )}
       >
@@ -74,36 +68,36 @@ const FloatingNavComponent = ({
             key={`link=${idx}`}
             to={navItem.link}
             className={cn(
-              "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+              "relative dark:text-neutral-50 items-center flex space-x-2 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
             )}
           >
             <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block text-sm">{navItem.name}</span>
+            <span className="hidden sm:block text-lg">{navItem.name}</span>
           </Link>
         ))}
         {isLoggedIn ? (
-          <div className="flex items-center space-x-4">
-            <span>{user.email}</span>
+          <div className="flex items-center space-x-6">
+            <span className="text-lg">{user.email}</span>
             <button 
-              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              className="border text-lg font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-6 py-3 rounded-full"
               onClick={() => redirectToAccountPage()}
             >
               Account
             </button>
             <button 
-              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              className="border text-lg font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-6 py-3 rounded-full"
               onClick={() => logoutFunction(true)}
             >
               Logout
             </button>
           </div>
         ) : (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <button 
-              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              className="border text-lg font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-6 py-3 rounded-full"
               onClick={() => redirectToLoginPage()}
             >
-              <span> Login </span>
+              <span>Login</span>
               <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
             </button>
           </div>
