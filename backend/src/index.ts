@@ -16,7 +16,7 @@ interface JsonRpcRequest {
 }
 
 interface TransactionDetail {
-    blockHeight: number;
+    blockNumber: number;
     timestamp: string;
     transactionId: string;
     receiverId: string;
@@ -94,7 +94,7 @@ export const testFunction = async (targetaccount: string) => {
                         // console.log(transactionStatus);
                         if (transactionStatus.result.status.SuccessValue !== undefined) {
                             const transactionDetails: TransactionDetail = {
-                            blockHeight: block.result.header.height,
+                            blockNumber: block.result.header.height,
                             timestamp: blockTimestamp,
                             transactionId: transaction.hash,
                             receiverId: transaction.receiver_id,
@@ -112,7 +112,7 @@ export const testFunction = async (targetaccount: string) => {
         blockHeight--;
         blockHeightMaxCheck--;
     }
-    
+
     return transactions;
 
     // const status = await getStatus('testnet', 'dontcare', 'block', {"finality": "final"});
