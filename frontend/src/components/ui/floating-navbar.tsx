@@ -9,11 +9,13 @@ import {
 } from "framer-motion";
 import { cn } from "../../util/cn";
 import { Link } from 'react-router-dom';
+import { withAuthInfo, useRedirectFunctions, useLogoutFunction } from '@propelauth/react';
 
-
-export const FloatingNav = ({
+const FloatingNavComponent = ({
   navItems,
   className,
+  isLoggedIn,
+  user,
 }: {
   navItems: {
     name: string;
@@ -21,10 +23,16 @@ export const FloatingNav = ({
     icon?: JSX.Element;
   }[];
   className?: string;
+  isLoggedIn: boolean;
+  user: {
+    email: string;
+  };
 }) => {
   const { scrollYProgress } = useScroll();
-
   const [visible, setVisible] = useState(true);
+ 
+  const { redirectToLoginPage, redirectToSignupPage, redirectToAccountPage } = useRedirectFunctions();
+  const logoutFunction = useLogoutFunction();
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     if (typeof current === "number") {
@@ -64,7 +72,7 @@ export const FloatingNav = ({
         {navItems.map((navItem: any, idx: number) => (
           <Link
             key={`link=${idx}`}
-            to={navItem.link} // Corrected from href to to
+            to={navItem.link}
             className={cn(
               "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
             )}
@@ -73,13 +81,36 @@ export const FloatingNav = ({
             <span className="hidden sm:block text-sm">{navItem.name}</span>
           </Link>
         ))}
-        <button 
-          className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
-        >
-          <span>Login</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
-        </button>
+        {isLoggedIn ? (
+          <div className="flex items-center space-x-4">
+            <span>{user.email}</span>
+            <button 
+              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              onClick={() => redirectToAccountPage()}
+            >
+              Account
+            </button>
+            <button 
+              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              onClick={() => logoutFunction(true)}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center space-x-4">
+            <button 
+              className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full"
+              onClick={() => redirectToLoginPage()}
+            >
+              <span> Login </span>
+              <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+            </button>
+          </div>
+        )}
       </motion.div>
     </AnimatePresence>
   );
 };
+
+export const FloatingNav = withAuthInfo(FloatingNavComponent);

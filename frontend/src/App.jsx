@@ -14,7 +14,6 @@ const navItems = [
   { name: 'Home', link: '/'},
   { name: 'Dashboard', link: '/dashboard'},
   { name: 'Lookup', link: '/lookup' },
-  { name: 'Login', link: '/login'}
 ];
 
 function App() {
@@ -43,9 +42,6 @@ function App() {
           <Route path='/lookup' element ={<Lookup/> }>
           </Route>
 
-          <Route path='/login' element ={<Login/> }>
-            
-          </Route>
 
           </Route>
         </Routes>
