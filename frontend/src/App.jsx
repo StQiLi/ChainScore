@@ -17,7 +17,7 @@ const navItems = [
 ];
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("stanley");
   return (
     <BrowserRouter>
       <div className="w-full h-full">
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path='/' index element={<Home />} />
           <Route
-            path='dashboard'
+            path='/dashboard'
             element={
               <ProtectedRoute user={user}>
                 <Dashboard user={user} />
