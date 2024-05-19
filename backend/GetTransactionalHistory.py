@@ -19,7 +19,7 @@ def format_crypto_wallet_history(file_path):
     return formatted_text
 
 # Make sure to replace 'your-api-key' with your actual OpenAI API key
-client = OpenAI(api_key='dd')
+client = OpenAI(api_key='sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0')
 
 
 # Load the JSON file
@@ -34,10 +34,10 @@ formatted_history = format_crypto_wallet_history(file_path)
 
 # Call the OpenAI API
 response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-4o",
     messages=[{"role": "system", "content": "Here is a wallet history in JSON format:" +  formatted_history + "\n\n Please given me the results for total number of transactions that took place, \
         and the number of transactions per month on average. Please respond in the format: \n \
-            Total Transactions: <Number> \n Average Transactions Per Month: <Decimal>"}],
+            Total Transactions: <Number> \n Average Transactions Per Month: <Decimal> \n Total Wallet Health: <How Healthy the transactions are from 1-10>"}],
     max_tokens=300
 )
 
