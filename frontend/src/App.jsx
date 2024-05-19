@@ -27,8 +27,7 @@ function App() {
       
 
         <Routes>
-          <Route path='/'>
-          <Route index element={<Home />} />
+          <Route path='/' index element={<Home />} />
           <Route
             path='dashboard'
             element={
@@ -39,11 +38,8 @@ function App() {
           />
 
 
-          <Route path='/lookup' element ={<Lookup/> }>
-          </Route>
+          <Route path='/lookup' element ={<Lookup/> }></Route>
 
-
-          </Route>
         </Routes>
         
 

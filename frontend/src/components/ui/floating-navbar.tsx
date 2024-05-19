@@ -39,12 +39,12 @@ const FloatingNavComponent = ({
       let direction = current - scrollYProgress.getPrevious();
 
       if (scrollYProgress.get() < 0.05) {
-        setVisible(false);
+        setVisible(true);
       } else {
         if (direction < 0) {
           setVisible(true);
         } else {
-          setVisible(false);
+          setVisible(true);
         }
       }
     }
