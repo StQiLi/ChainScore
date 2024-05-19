@@ -10,18 +10,15 @@ def format_crypto_wallet_history(file_path):
     formatted_text = "Crypto Wallet History:\n"
     
     # Loop through each transaction and format the text
-    for i, transaction in enumerate(data['cryptoWalletHistory'], start=1):
-        formatted_text += f"{i}. Transaction ID: {transaction['transactionId']}\n"
-        formatted_text += f"   Date: {transaction['date']}\n"
-        formatted_text += f"   Type: {transaction['type'].capitalize()}\n"
-        formatted_text += f"   Amount: {transaction['amount']} {transaction['currency']}\n"
-        formatted_text += f"   Balance: {transaction['balance']} {transaction['currency']}\n"
-        formatted_text += f"   Description: {transaction['description']}\n\n"
+    for i, transaction in enumerate(data, start=1):
+        formatted_text += f"{i}. ValueUSD: {transaction['value']}\n"
+        formatted_text += f"   Date: {transaction['block_timestamp']}\n"
+        formatted_text += f"   Type: {transaction['type'].capitalize()}\n\n"
     
     return formatted_text
 
 # Make sure to replace 'your-api-key' with your actual OpenAI API key
-client = OpenAI(api_key='APIKEY')
+client = OpenAI(api_key='API-KEY')
 
 
 # Load the JSON file
