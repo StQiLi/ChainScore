@@ -21,11 +21,11 @@ const Lookup = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError('Form Submition Error');
 
     try {
-      const response = await axios.get(`http://localhost:5000/wallet/${address}`);
-      setWalletDetails(response.data);
+      const json = await axios.get(`http://localhost:3000/wallet/${address}`);
+      console.log(json)
     } catch (err) {
       setError('Error fetching wallet details. Please check the address and try again.');
     }
