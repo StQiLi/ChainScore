@@ -20,12 +20,10 @@ function App() {
   const [user, setUser] = useState(null);
   return (
     <BrowserRouter>
-      <div>
-
+      <div className="w-full h-full">
         <FloatingNav navItems={navItems}/>
         <AuroraBackground>
-      
-
+    
         <Routes>
           <Route path='/' index element={<Home />} />
           <Route
