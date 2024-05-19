@@ -11,7 +11,7 @@ const Lookup = () => {
   const [error, setError] = useState('');
 
   const placeholders = [
-    "Enter your CryptoWallet ID"
+    "Enter your CryptoWallet ID",
   ];
 
   const handleChange = (e) => {

@@ -249,6 +249,7 @@ export function PlaceholdersAndVanishInput({
                 ease: "linear",
               }}
               className="dark:text-zinc-500 text-sm sm:text-base font-normal text-neutral-500 pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate"
+              style={{ paddingTop: "1.25rem" }}
             >
               {placeholders[currentPlaceholder]}
             </motion.p>
