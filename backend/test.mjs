@@ -1,12 +1,9 @@
 import OpenAI from 'openai-api';
 
 const openai = new OpenAI('sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0');
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 const apiKey = 'sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0';
-const o = new OpenAI(apiKey);
+const o = new OpenAI();
 
 async function chain_score(formatted_history, totalvolume, average_volume_per_second, average_volume_per_day, differenceInSeconds) {
   try {
@@ -44,9 +41,12 @@ async function chain_score(formatted_history, totalvolume, average_volume_per_se
 
     return completion.data.choices[0].message.content;
   } catch (error) {
-    console.error('Error fetching chain score:', error.message);
-    throw error;
+    if (error instanceof ZodError) {
+       return new NextResponse("Invalid Body", { status: 400 });
+    }
+    return new NextResponse("Internal server error", { status: 500 });
   }
+
 }
 
 const data = [{
@@ -67,16 +67,27 @@ for (let i = 0; i < data.length; i++) {
 
 let recent_transaction = new Date(data[0].timestamp);
 let oldest_transaction = new Date(data[data.length - 1].timestamp);
-let differenceInSeconds = (recent_transaction.getTime() - oldest_transaction.getTime()) / 1000;
+let differenceInSeconds = (recent_transaction.getTime() - oldest_transaction.getTime() + 1000) / 1000;
 
 let average_volume_per_second = totalvolume / differenceInSeconds;
 let average_volume_per_day = average_volume_per_second * 86400;
+
+console.log('recent_transaction:', recent_transaction);
+console.log('oldest_transaction:', oldest_transaction);
+console.log('differenceInSeconds:', differenceInSeconds);
+console.log('average_volume_per_second:', average_volume_per_second);
+console.log('average_volume_per_day:', average_volume_per_day);
+
 
 const formatted_history = JSON.stringify(data);
 
 // Test the function
 (async () => {
   try {
+    console.log(formatted_history);
+    console.log(totalvolume);
+    console.log(average_volume_per_second);
+    console.log(average_volume_per_day);
     const result = await chain_score(
       formatted_history,
       totalvolume,

@@ -53,7 +53,7 @@ export const testFunction = async (targetaccount: string) => {
   try {
     let blockHeight = (await getStatus('testnet', 'dontcare', 'block', {"finality": "final"})).result.header.height
 
-    let blockHeightMaxCheck = 1000;
+    let blockHeightMaxCheck = 150;
     //console.log(blockHeight);
     while (blockHeight > 0 && blockHeightMaxCheck > 0) {
         const block = await getStatus('testnet', 'dontcare', 'block', {"block_id": blockHeight});
