@@ -1,8 +1,8 @@
 import OpenAI from 'openai-api';
 
-const openai = new OpenAI('sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0');
+const openai = new OpenAI('a');
 
-const apiKey = 'sk-proj-SQp0QKkaDvmzVO8BsDnRT3BlbkFJnQl0VLpYuBdmkqC0usd0';
+const apiKey = 'a';
 const o = new OpenAI();
 
 async function chain_score(formatted_history, totalvolume, average_volume_per_second, average_volume_per_day, differenceInSeconds) {
